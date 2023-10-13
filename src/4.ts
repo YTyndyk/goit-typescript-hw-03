@@ -24,9 +24,15 @@ class Person {
 }
 // Дім (House)
 abstract class House {
-	door: boolean = false;
-	key: Key;
-	tenants: Person[] = [];
+	protected door: boolean;
+	protected key: Key;
+	protected tenants: Person[];
+
+	constructor(key: Key) {
+		this.door = false;
+		this.key = key;
+		this.tenants = [];
+	}
 
 	comeIn(person: Person): void {
 		if (this.door) {
@@ -41,6 +47,9 @@ abstract class House {
 }
 // Мій будинок (MyHouse)
 class MyHouse extends House {
+	constructor(key: Key) {
+		super(key);
+	}
 	openDoor(key: Key): void {
 		if (key.getSignature() === this.key.getSignature()) {
 			this.door = true;
@@ -52,7 +61,7 @@ class MyHouse extends House {
 }
 const key = new Key();
 
-const house = new MyHouse();
+const house = new MyHouse(key);
 const person = new Person(key);
 
 house.openDoor(person.getKey());
